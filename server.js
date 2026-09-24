@@ -1,8 +1,13 @@
-// server.js
 const express = require('express');
+const http = require('http'); // Necessário para criar o server
+const socketIo = require('socket.io');
+
 const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+
+// A VARIÁVEL QUE ESTÁ A FALTAR É ESTA:
+const server = http.createServer(app); 
+
+const io = socketIo(server);
 
 app.use(express.static('public'));
 
