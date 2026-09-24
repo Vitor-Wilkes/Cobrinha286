@@ -493,6 +493,6 @@ setInterval(() => {
 }, 1000 / 60);
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+Server.listen(PORT, () => {
     console.log(`Servidor a rodar na porta ${PORT}`);
 });
