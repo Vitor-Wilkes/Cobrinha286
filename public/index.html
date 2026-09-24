@@ -3,14 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Snake.io 1v1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>286SNAKE 1v1</title>
+    <!-- Fontes Retro/Arcade -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@500;700&display=swap"
+        rel="stylesheet">
+
     <style>
-        /* Estilos Globais e Reset */
+        /* Correção do Fundo Branco: html e body garantidos a 100% da janela */
+        html,
         body {
+            width: 100%;
+            height: 100%;
             margin: 0;
+            padding: 0;
             overflow: hidden;
-            background: #161816;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #050505;
+            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%);
+            font-family: 'Rajdhani', sans-serif;
             color: #E0E0E0;
             user-select: none;
         }
@@ -21,10 +31,9 @@
             top: 0;
             left: 0;
             z-index: 1;
-            /* O jogo fica no fundo */
         }
 
-        /* Telas Principais (Fundo Sólido) */
+        /* Telas Principais */
         .screen {
             position: absolute;
             top: 0;
@@ -35,173 +44,322 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #161816;
             z-index: 10;
         }
 
-        /* Pop-up sobre o Jogo (Fundo Translúcido) */
         #endScreen {
-            background: rgba(0, 0, 0, 0.7);
-            /* Fundo escurinho transparente */
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
             z-index: 20;
-            /* Fica acima do Canvas */
+        }
+
+        /* Imagem da Logo */
+        .game-logo {
+            max-width: 450px;
+            width: 80%;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(189, 0, 255, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Fallback de Texto caso a imagem logo.jpg não exista */
+        .logo-fallback {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.2rem;
+            color: #39ff14;
+            text-shadow: 0 0 15px rgba(57, 255, 20, 0.8), 0 0 30px rgba(189, 0, 255, 0.6);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         /* Tipografia */
-        h1 {
-            font-size: 2.8rem;
-            color: #5DB971;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
-        }
-
         h2 {
-            font-size: 2rem;
-            color: #D46A84;
-            margin-bottom: 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: #00f3ff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+            line-height: 1.5;
+            text-align: center;
         }
 
         h3 {
-            color: #E0E0E0;
-            font-weight: normal;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* Campos e Botões */
+        /* Campos e Botões (Tamanho Aumentado) */
         input {
-            padding: 15px;
-            font-size: 1.1rem;
-            background: #1F221F;
-            border: 2px solid #5DB971;
-            color: white;
-            border-radius: 8px;
+            padding: 20px; /* Aumentado para dar mais volume */
+            font-size: 1.6rem; /* Letra maior (era 1.3rem) */
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00f3ff;
+            color: #00f3ff;
+            border-radius: 4px;
             text-align: center;
             outline: none;
-            margin-bottom: 15px;
-            width: 260px;
-            transition: border-color 0.3s;
+            margin-bottom: 25px; /* Mais espaço em baixo */
+            width: 350px; /* Campo mais largo (era 280px) */
+            transition: all 0.3s;
+            text-transform: uppercase;
+            box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+
+        input::placeholder {
+            color: rgba(0, 243, 255, 0.5);
         }
 
         input:focus {
-            border-color: #D46A84;
+            border-color: #39ff14;
+            color: #39ff14;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5), inset 0 0 10px rgba(57, 255, 20, 0.2);
+        }
+
+        button {
+            padding: 20px 30px; /* Botão mais alto */
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem; /* Texto do botão maior (era 0.8rem) */
+            background: rgba(10, 10, 15, 0.9);
+            border: 2px solid #39ff14;
+            color: #39ff14;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            line-height: 1.5;
+            transition: all 0.2s ease;
+            margin: 10px;
+            width: 394px; /* Acompanha a largura do input novo */
+            text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+
+        button:hover {
+            background: #39ff14;
+            color: #000;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+            text-shadow: none;
+            transform: scale(1.02);
+        }
+
+        button.btn-pink {
+            border-color: #ff00ea;
+            color: #ff00ea;
+            text-shadow: 0 0 5px rgba(255, 0, 234, 0.5);
+            box-shadow: 0 0 10px rgba(255, 0, 234, 0.3);
+        }
+
+        button.btn-pink:hover {
+            background: #ff00ea;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 0, 234, 0.8);
+        }
+
+        .divider {
+            width: 120px; /* Linha mais larga (era 80px) */
+            height: 6px; /* Linha mais grossa */
+            background-color: #bd00ff;
+            border-radius: 3px;
+            margin: 25px 0; /* Mais espaço em volta */
+            box-shadow: 0 0 10px rgba(189, 0, 255, 0.8);
+        }
+
+        input::placeholder {
+            color: rgba(0, 243, 255, 0.5);
+        }
+
+        input:focus {
+            border-color: #39ff14;
+            color: #39ff14;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5), inset 0 0 10px rgba(57, 255, 20, 0.2);
         }
 
         button {
             padding: 15px 30px;
-            font-size: 1.1rem;
-            background: transparent;
-            border: 2px solid #5DB971;
-            color: #5DB971;
-            border-radius: 8px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            background: rgba(10, 10, 15, 0.9);
+            border: 2px solid #39ff14;
+            color: #39ff14;
+            border-radius: 4px;
             cursor: pointer;
             text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
+            line-height: 1.5;
             transition: all 0.2s ease;
             margin: 10px;
-            width: 294px;
+            width: 314px;
+            text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
         }
 
         button:hover {
-            background: #5DB971;
-            color: #161816;
+            background: #39ff14;
+            color: #000;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+            text-shadow: none;
+            transform: scale(1.02);
         }
 
         button.btn-pink {
-            border-color: #D46A84;
-            color: #D46A84;
+            border-color: #ff00ea;
+            color: #ff00ea;
+            text-shadow: 0 0 5px rgba(255, 0, 234, 0.5);
+            box-shadow: 0 0 10px rgba(255, 0, 234, 0.3);
         }
 
         button.btn-pink:hover {
-            background: #D46A84;
-            color: #161816;
+            background: #ff00ea;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 0, 234, 0.8);
         }
 
         .divider {
-            width: 50px;
+            width: 80px;
             height: 4px;
-            background-color: #303632;
+            background-color: #bd00ff;
             border-radius: 2px;
-            margin: 20px 0;
+            margin: 15px 0;
+            box-shadow: 0 0 10px rgba(189, 0, 255, 0.8);
         }
 
-        /* Cards do Lobby e Pop-up */
+        /* Cards do Lobby */
         .card-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: #1F221F;
+            background: rgba(10, 10, 15, 0.9);
             padding: 40px 60px;
-            border-radius: 12px;
-            border: 1px solid #303632;
-            min-width: 300px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border: 2px solid #bd00ff;
+            min-width: 350px;
+            box-shadow: 0 0 30px rgba(189, 0, 255, 0.3), inset 0 0 20px rgba(189, 0, 255, 0.1);
+            backdrop-filter: blur(8px);
         }
 
         .lobby-code {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: #5DB971;
-            letter-spacing: 4px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            color: #39ff14;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
             margin: 10px 0 30px 0;
         }
 
         .lobby-players {
             text-align: left;
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .lobby-players p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin: 15px 0;
             padding: 15px;
-            background: #161816;
-            border-left: 4px solid #D46A84;
+            background: rgba(0, 0, 0, 0.8);
+            border-left: 4px solid #00f3ff;
             border-radius: 4px;
+            box-shadow: inset 15px 0 20px -15px rgba(0, 243, 255, 0.4);
         }
 
         .lobby-players span {
             font-weight: bold;
-            color: #E0E0E0;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
-        /* Botões de Skin */
-        .skin-selector {
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .skin-selector h3 {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            color: #E0E0E0;
-            font-weight: bold;
-        }
-
-        .skin-row {
+        /* Layout do Lobby (Lado a Lado) */
+        .lobby-layout {
             display: flex;
-            gap: 12px;
+            flex-direction: row;
+            align-items: center;
             justify-content: center;
+            gap: 40px;
+            width: 90%;
+            max-width: 900px;
         }
 
-        .skin-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: 3px solid transparent;
+        /* Coluna da Direita (Painel da Skin) */
+        .skin-showcase-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(10, 10, 15, 0.9);
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px solid #39ff14;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 20px rgba(57, 255, 20, 0.1);
+            backdrop-filter: blur(8px);
+            min-width: 320px;
+        }
+
+        .skin-carousel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Setas do Carrossel */
+        .arrow-btn {
+            background: transparent !important;
+            border: none !important;
+            color: #fff !important;
+            font-size: 3rem !important;
             cursor: pointer;
-            transition: all 0.2s;
-            padding: 0;
-            margin: 0;
+            transition: all 0.2s ease;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5) !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: auto !important;
         }
 
-        .skin-btn:hover {
-            transform: scale(1.1);
+        .arrow-btn:hover {
+            color: #39ff14 !important;
+            text-shadow: 0 0 20px #39ff14 !important;
+            transform: scale(1.2) !important;
         }
 
-        .skin-btn.selected {
-            border-color: white;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 160px;
+        }
+
+        /* Força o canvas de preview da skin a aparecer e anula a regra global */
+        #skinPreviewCanvas {
+            display: block !important;
+            position: relative !important;
+            margin: 0 auto;
+            z-index: 5;
+        }
+
+        .skin-name {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: #39ff14;
+            margin-top: 15px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+            height: 20px;
         }
     </style>
 </head>
@@ -210,7 +368,10 @@
 
     <!-- 1. TELA DE MENU INICIAL -->
     <div id="menu" class="screen">
-        <h1>Snake.io</h1>
+        <img src="logo.png" alt="286SNAKE Logo" class="game-logo"
+            onerror="this.style.display='none'; document.getElementById('menu-fallback').style.display='block';">
+        <h1 id="menu-fallback" class="logo-fallback" style="display: none;">286SNAKE</h1>
+
         <input type="text" id="nick" placeholder="Digite seu Nick">
         <button onclick="criarSala()">Criar Nova Sala</button>
         <div class="divider"></div>
@@ -218,66 +379,247 @@
         <button class="btn-pink" onclick="entrarSala()">Entrar na Sala</button>
     </div>
 
-    <!-- 2. TELA DE LOBBY (Sala de Espera) -->
+    <!-- 2. TELA DE LOBBY -->
     <div id="lobby" class="screen" style="display: none;">
-        <div class="card-container">
-            <h2>Código da Sala</h2>
-            <div class="lobby-code" id="lobbyCode">---</div>
+        <img src="logo.png" alt="286SNAKE Logo" class="game-logo" style="max-width: 350px; margin-bottom: 20px;" onerror="this.style.display='none'; document.getElementById('lobby-fallback').style.display='block';">
+        <h1 id="lobby-fallback" class="logo-fallback" style="display: none; font-size: 1.5rem; margin-bottom: 15px;">286SNAKE</h1>
 
-            <div class="lobby-players">
-                <p>Jogador 1: <span id="player1Name">Aguardando...</span></p>
-                <p>Jogador 2: <span id="player2Name">Aguardando...</span></p>
+        <div class="lobby-layout">
+            <!-- COLUNA ESQUERDA: Cartão da Sala -->
+            <div class="card-container">
+                <h2>Código da Sala</h2>
+                <div class="lobby-code" id="lobbyCode">---</div>
+
+                <div class="lobby-players">
+                    <p>Jogador 1: <span id="player1Name">Aguardando...</span></p>
+                    <p>Jogador 2: <span id="player2Name">Aguardando...</span></p>
+                </div>
+
+                <button id="startBtn" onclick="iniciarJogo()" style="display: none; width: 100%;">Iniciar Partida</button>
+                <button class="btn-pink" onclick="sairDaSala()" style="margin-top: 15px; width: 100%; font-size: 0.7rem; padding: 10px;">Sair da Sala</button>
             </div>
 
-            <!-- NOVA SEÇÃO: Escolha de Skin -->
-            <div class="skin-selector">
-                <h3>Escolha sua Skin:</h3>
-                <div class="skin-row">
-                    <button class="skin-btn selected" style="background: #5DB971;"
-                        onclick="mudarSkin('#5DB971', this)"></button>
-                    <button class="skin-btn" style="background: #D46A84;" onclick="mudarSkin('#D46A84', this)"></button>
+            <!-- COLUNA DIREITA: Seletor de Skin Animado -->
+            <div class="skin-showcase-container">
+                <h3 style="color: #00f3ff; margin-bottom: 15px; text-shadow: 0 0 10px rgba(0,243,255,0.5);">SUA SKIN</h3>
+                
+                <div class="skin-carousel">
+                    <!-- Seta Esquerda -->
+                    <button class="arrow-btn" onclick="mudarSkinPreview(-1)">&#10094;</button>
+                    
+                    <!-- Tela de Animação -->
+                    <div class="preview-container">
+                        <canvas id="skinPreviewCanvas" width="160" height="300"></canvas>
+                        <div id="nomeDaSkinAtual" class="skin-name">NEON GREEN</div>
+                    </div>
 
-                    <!-- Botão da Skin Ravena -->
-                    <button class="skin-btn" style="background: #49309b; border-color: #ffd700; border-width: 2px;"
-                        onclick="mudarSkin('raven', this)"></button>
-
-                    <!-- Botão da Skin Clover -->
-                    <button class="skin-btn" style="background: #e3242b; border-color: #f5d76e; border-width: 2px;"
-                        onclick="mudarSkin('clover', this)"></button>
-
-                    <!-- Botão da Skin Palmeiras -->
-                    <button class="skin-btn" style="background: #004f2d; border-color: #ffffff; border-width: 2px;"
-                        onclick="mudarSkin('palmeiras', this)"></button>
-
-                    <!-- Botão da Skin São Paulo -->
-                    <button class="skin-btn" style="background: #000000; border-color: #ff0000; border-width: 2px;"
-                        onclick="mudarSkin('saopaulo', this)"></button>
+                    <!-- Seta Direita -->
+                    <button class="arrow-btn" onclick="mudarSkinPreview(1)">&#10095;</button>
                 </div>
             </div>
-
-            <button id="startBtn" onclick="iniciarJogo()" style="display: none;">Iniciar Partida</button>
-            <button class="btn-pink" onclick="sairDaSala()"
-                style="margin-top: 20px; width: auto; font-size: 0.9rem; padding: 10px 20px;">Sair da Sala</button>
         </div>
     </div>
 
-    <!-- 3. TELA DE FIM DE JOGO (Pop-up Translúcido) -->
+    <!-- 3. TELA DE FIM DE JOGO -->
     <div id="endScreen" class="screen" style="display: none;">
-        <div class="card-container" style="border-color: #D46A84; box-shadow: 0 0 30px rgba(212, 106, 132, 0.2);">
-            <h2 style="color: #5DB971;">Fim de Jogo</h2>
-            <h1 id="vencedorTexto" style="color: #D46A84; margin: 20px 0 40px 0;">ALGUÉM VENCEU!</h1>
+        <div class="card-container" style="border-color: #ff00ea; box-shadow: 0 0 40px rgba(255, 0, 234, 0.4);">
+            <h2 style="color: #00f3ff; margin-bottom: 25px;">FIM DE JOGO</h2>
+            <h1 id="vencedorTexto"
+                style="font-family: 'Press Start 2P', cursive; font-size: 1.8rem; color: #ff00ea; text-shadow: 0 0 15px rgba(255,0,234,0.8); margin: 10px 0 40px 0; text-align: center; line-height: 1.5;">
+                ALGUÉM VENCEU!</h1>
 
             <button onclick="pedirRevanche()">Jogar Novamente</button>
             <button class="btn-pink" onclick="sairDaSala()">Voltar ao Menu</button>
         </div>
     </div>
 
-    <!-- 4. O CANVAS DO JOGO -->
+    <!-- 4. CANVAS -->
     <canvas id="gameCanvas" style="display: none;"></canvas>
 
-    <!-- Importando os scripts -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="game.js"></script>
+    <!-- Script de Animação do Lobby (Cobra Centralizada para não cortar a cabeça) -->
+    <script>
+        const listaSkins = [
+            { id: '#39ff14', nome: 'NEON GREEN', tipo: 'cor', cor1: '#39ff14', cor2: '#22990c' },
+            { id: '#ff00ea', nome: 'NEON PINK', tipo: 'cor', cor1: '#ff00ea', cor2: '#99008c' },
+            { 
+                id: 'raven', nome: 'RAVENA', tipo: 'imagem', corTexto: '#49309b', 
+                srcCabeca: 'img/cabecaRavena.png', 
+                srcCorpo: { padrao: 'img/corpoRavena.png' } 
+            }, 
+            { 
+                id: 'clover', nome: 'CLOVER', tipo: 'imagem', corTexto: '#e3242b', 
+                srcCabeca: 'img/clover_cabeca_256.png', 
+                srcCorpo: { 
+                    vermelho: 'img/clover_corpo_vermelho_256.png', 
+                    coracao: 'img/clover_corpo_coracao_256.png', 
+                    barriga: 'img/clover_corpo_barriga_256.png' 
+                } 
+            },
+            { 
+                id: 'palmeiras', nome: 'PALMEIRAS', tipo: 'imagem', corTexto: '#004f2d', 
+                srcCabeca: 'img/palmeiras_cabeca_escudo_256.png', 
+                srcCorpo: { 
+                    verde: 'img/palmeiras_corpo_verde_256.png', 
+                    branco: 'img/palmeiras_corpo_branco_256.png' 
+                } 
+            },
+            { 
+                id: 'saopaulo', nome: 'SAO PAULO', tipo: 'imagem', corTexto: '#ff0000', 
+                srcCabeca: 'img/saopaulo_cabeca_escudo_256.png', 
+                srcCorpo: { 
+                    vermelho: 'img/saopaulo_corpo_vermelho_256.png', 
+                    preto: 'img/saopaulo_corpo_preto_256.png' 
+                } 
+            }
+        ];
+        let indiceSkinAtual = 0;
+
+        // Pré-carregamento das imagens em objetos categorizados
+        listaSkins.forEach(skin => {
+            if (skin.tipo === 'imagem') {
+                skin.imgCabeca = new Image();
+                skin.imgCabeca.src = skin.srcCabeca;
+                
+                skin.imgCorpo = {};
+                for (let chave in skin.srcCorpo) {
+                    skin.imgCorpo[chave] = new Image();
+                    skin.imgCorpo[chave].src = skin.srcCorpo[chave];
+                }
+            }
+        });
+
+        function mudarSkinPreview(direcao) {
+            indiceSkinAtual += direcao;
+            
+            if (indiceSkinAtual < 0) indiceSkinAtual = listaSkins.length - 1;
+            if (indiceSkinAtual >= listaSkins.length) indiceSkinAtual = 0;
+            
+            const skin = listaSkins[indiceSkinAtual];
+            
+            const textoSkin = document.getElementById('nomeDaSkinAtual');
+            textoSkin.innerText = skin.nome;
+            
+            const corDestaque = skin.tipo === 'cor' ? skin.cor1 : skin.corTexto;
+            textoSkin.style.color = corDestaque;
+            textoSkin.style.textShadow = `0 0 10px ${corDestaque}`;
+
+            if (typeof socket !== 'undefined' && typeof roomCode !== 'undefined') {
+                socket.emit('changeSkin', roomCode, skin.id);
+            }
+        }
+
+        const previewCanvas = document.getElementById('skinPreviewCanvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        let tempoAnimacao = 0;
+
+        function desenharPreview() {
+            if (document.getElementById('lobby').style.display !== 'none') {
+                previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+                tempoAnimacao += 0.08; 
+                
+                const skin = listaSkins[indiceSkinAtual];
+                const centroX = previewCanvas.width / 2;
+                
+                const amplitude = 25;    
+                const espacamento = 26;  
+                const partes = 8;        
+                
+                // Percorre de trás para a frente
+                for (let i = partes; i >= 0; i--) {
+                    // AQUI ESTÁ A CORREÇÃO: mudei o Y base de 20 para 40 para a cobra descer!
+                    const y = 40 + (i * espacamento); 
+                    const x = centroX + Math.sin(tempoAnimacao - (i * 0.4)) * amplitude;
+                    
+                    let imagensCarregadas = skin.tipo === 'imagem' && skin.imgCabeca.complete && skin.imgCabeca.naturalWidth !== 0;
+                    if (imagensCarregadas) {
+                        for (let chave in skin.imgCorpo) {
+                            if (!skin.imgCorpo[chave].complete || skin.imgCorpo[chave].naturalWidth === 0) {
+                                imagensCarregadas = false;
+                            }
+                        }
+                    }
+
+                    if (imagensCarregadas) {
+                        let img;
+                        
+                        if (i === 0) {
+                            img = skin.imgCabeca;
+                        } else {
+                            let gameIndex = i - 1; 
+                            
+                            if (skin.id === 'raven') {
+                                img = skin.imgCorpo.padrao;
+                            } 
+                            else if (skin.id === 'clover') {
+                                if (gameIndex === 2) img = skin.imgCorpo.coracao;
+                                else if (gameIndex === 3) img = skin.imgCorpo.barriga;
+                                else img = skin.imgCorpo.vermelho;
+                            } 
+                            else if (skin.id === 'palmeiras') {
+                                img = (gameIndex % 2 === 0) ? skin.imgCorpo.verde : skin.imgCorpo.branco;
+                            } 
+                            else if (skin.id === 'saopaulo') {
+                                img = (gameIndex % 2 === 0) ? skin.imgCorpo.vermelho : skin.imgCorpo.preto;
+                            }
+                        }
+
+                        const tamanho = (i === 0) ? 50 : (i > partes - 2 ? 28 : 42);
+                        
+                        previewCtx.save();
+                        previewCtx.translate(x, y);
+                        
+                        if (i === 0) {
+                            // Mesma correção na rotação: usa a base 40
+                            const proxY = 40 + (1 * espacamento);
+                            const proxX = centroX + Math.sin(tempoAnimacao - (1 * 0.4)) * amplitude;
+                            const angulo = Math.atan2(y - proxY, x - proxX);
+                            previewCtx.rotate(angulo + Math.PI / 2); 
+                        } 
+                        else if (skin.id === 'clover' && (i - 1 === 2 || i - 1 === 3)) {
+                            // Mesma correção na rotação do corpo
+                            const proxY = 40 + ((i+1) * espacamento);
+                            const proxX = centroX + Math.sin(tempoAnimacao - ((i+1) * 0.4)) * amplitude;
+                            const anguloCorpo = Math.atan2(y - proxY, x - proxX);
+                            previewCtx.rotate(anguloCorpo + Math.PI / 2); 
+                        }
+                        
+                        previewCtx.drawImage(img, -tamanho / 2, -tamanho / 2, tamanho, tamanho);
+                        previewCtx.restore();
+                    } 
+                    else {
+                        previewCtx.beginPath();
+                        const raio = i === partes ? 12 : (i > partes - 2 ? 16 : 22);
+                        previewCtx.arc(x, y, raio, 0, Math.PI * 2);
+                        
+                        const fallbackCor1 = skin.cor1 || '#888';
+                        const fallbackCor2 = skin.cor2 || '#555';
+                        
+                        previewCtx.fillStyle = (i % 2 === 0) ? fallbackCor1 : fallbackCor2;
+                        previewCtx.fill();
+                        
+                        previewCtx.lineWidth = 2.5;
+                        previewCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                        previewCtx.stroke();
+                        
+                        if (i === 0) {
+                            previewCtx.fillStyle = '#fff'; 
+                            previewCtx.beginPath(); previewCtx.arc(x - 8, y - 8, 6, 0, Math.PI * 2); previewCtx.fill(); 
+                            previewCtx.beginPath(); previewCtx.arc(x + 8, y - 8, 6, 0, Math.PI * 2); previewCtx.fill(); 
+                            
+                            previewCtx.fillStyle = '#000';
+                            previewCtx.beginPath(); previewCtx.arc(x - 8, y - 10, 3, 0, Math.PI * 2); previewCtx.fill(); 
+                            previewCtx.beginPath(); previewCtx.arc(x + 8, y - 10, 3, 0, Math.PI * 2); previewCtx.fill(); 
+                        }
+                    }
+                }
+            }
+            requestAnimationFrame(desenharPreview);
+        }
+        
+        desenharPreview();
+    </script>
 </body>
 
 </html>
